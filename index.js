@@ -89,91 +89,55 @@ app.post('/api/users/:_id/exercises', (req, res) => {
 
 app.get('/api/users/:_id/logs', (req, res) => {
   console.log("get /api/users/:_id/logs");
-  if (req.query.limit) {
-    User.findById(req.params._id, {"__v": 0, log: { $slice: Number(req.query.limit) }}).then((foundUser) =>{
-      if (foundUser){
-        console.log(foundUser);
-        let fromDate;
-        let toDate;
-        if (req.query.from) {
-          console.log(req.query.from);
-          fromDate = new Date(req.query.from);
-          console.log(fromDate)
-        }
-        if (req.query.to) {
-          toDate = new Date(req.query.to);
-          console.log(toDate)
-        }
-    
-        if (fromDate && toDate){
-          logUser = foundUser.log.filter((item) => {
-            let itemDate = new Date(item.date);
-            console.log(itemDate);
-            return fromDate <= itemDate && itemDate <= toDate;
-          });
-        } else if (fromDate) {
-          logUser = foundUser.log.filter((item) => {
-            let itemDate = new Date(item.date);
-            console.log(itemDate);
-            return fromDate <= itemDate;
-          });
-        } else if (toDate) {
-          logUser = foundUser.log.filter((item) => {
-            let itemDate = new Date(item.date);
-            console.log(itemDate);
-            return itemDate <= toDate;
-          });
-        } else {
-          logUser = foundUser.log;
-        }
-        
-        res.send({
-          "_id": foundUser._id,
-          "username": foundUser.username,
-          "count": foundUser.count,
-          "log": logUser
-        });
-      }
-    }).catch((err) => {
-      console.log(err);
-    });
-    
-  } else {
+  
     User.findById(req.params._id, {"__v": 0}).then((foundUser) =>{
       if (foundUser){
         console.log(foundUser);
         let fromDate;
         let toDate;
+        
         if (req.query.from) {
-          console.log(req.query.from);
           fromDate = new Date(req.query.from);
-          console.log(fromDate)
         }
         if (req.query.to) {
           toDate = new Date(req.query.to);
-          console.log(toDate)
         }
     
         if (fromDate && toDate){
+          console.log("from: " + fromDate);
+          console.log("to: " + toDate);
           logUser = foundUser.log.filter((item) => {
             let itemDate = new Date(item.date);
-            console.log(itemDate);
+            // console.log(itemDate);
             return fromDate <= itemDate && itemDate <= toDate;
           });
+          console.log(logUser);
         } else if (fromDate) {
+          console.log("from: " + fromDate);
           logUser = foundUser.log.filter((item) => {
             let itemDate = new Date(item.date);
-            console.log(itemDate);
+            // console.log(itemDate);
             return fromDate <= itemDate;
           });
+          console.log(logUser);
         } else if (toDate) {
+          console.log("to: " + toDate);
           logUser = foundUser.log.filter((item) => {
             let itemDate = new Date(item.date);
-            console.log(itemDate);
+            // console.log(itemDate);
             return itemDate <= toDate;
           });
+          console.log(logUser);
         } else {
           logUser = foundUser.log;
+          console.log(logUser);
+        }
+
+        if (req.query.limit) {
+          limit = Number(req.query.limit);
+        }
+        if (limit && limit < logUser.length) {
+          logUser = logUser.slice(0, limit)
         }
         
         res.send({
@@ -187,9 +151,6 @@ app.get('/api/users/:_id/logs', (req, res) => {
     }).catch((err) => {
       console.log(err);
     });
-
-    
-  }
   
 });
 
