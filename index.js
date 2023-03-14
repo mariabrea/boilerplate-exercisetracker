@@ -109,9 +109,19 @@ app.get('/api/users/:_id/logs', (req, res) => {
           logUser = foundUser.log.filter((item) => {
             let itemDate = new Date(item.date);
             console.log(itemDate);
-            console.log(fromDate <= itemDate);
-            console.log(itemDate <= toDate);
             return fromDate <= itemDate && itemDate <= toDate;
+          });
+        } else if (fromDate) {
+          logUser = foundUser.log.filter((item) => {
+            let itemDate = new Date(item.date);
+            console.log(itemDate);
+            return fromDate <= itemDate;
+          });
+        } else if (toDate) {
+          logUser = foundUser.log.filter((item) => {
+            let itemDate = new Date(item.date);
+            console.log(itemDate);
+            return itemDate <= toDate;
           });
         } else {
           logUser = foundUser.log;
@@ -148,9 +158,19 @@ app.get('/api/users/:_id/logs', (req, res) => {
           logUser = foundUser.log.filter((item) => {
             let itemDate = new Date(item.date);
             console.log(itemDate);
-            console.log(fromDate <= itemDate);
-            console.log(itemDate <= toDate);
             return fromDate <= itemDate && itemDate <= toDate;
+          });
+        } else if (fromDate) {
+          logUser = foundUser.log.filter((item) => {
+            let itemDate = new Date(item.date);
+            console.log(itemDate);
+            return fromDate <= itemDate;
+          });
+        } else if (toDate) {
+          logUser = foundUser.log.filter((item) => {
+            let itemDate = new Date(item.date);
+            console.log(itemDate);
+            return itemDate <= toDate;
           });
         } else {
           logUser = foundUser.log;
