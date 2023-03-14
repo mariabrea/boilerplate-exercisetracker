@@ -135,10 +135,11 @@ app.get('/api/users/:_id/logs', (req, res) => {
 
         if (req.query.limit) {
           limit = Number(req.query.limit);
+          if (limit < logUser.length) {
+            logUser = logUser.slice(0, limit)
+          }
         }
-        if (limit && limit < logUser.length) {
-          logUser = logUser.slice(0, limit)
-        }
+        
         
         res.send({
           "_id": foundUser._id,
