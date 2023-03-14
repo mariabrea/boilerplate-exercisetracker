@@ -78,7 +78,7 @@ app.post('/api/users/:_id/exercises', (req, res) => {
         _id: foundUser._id,
         username: foundUser.username,
         date: logDate,
-        duration: req.body.duration,
+        duration: Number(req.body.duration),
         description: req.body.description
         });
     }
@@ -178,4 +178,4 @@ app.get('/api/users/:_id/logs', (req, res) => {
 
 const listener = app.listen(process.env.PORT || 3000, () => {
   console.log('Your app is listening on port ' + listener.address().port)
-})
+});
